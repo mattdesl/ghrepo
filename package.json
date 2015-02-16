@@ -1,0 +1,53 @@
+{
+  "name": "ghrepo",
+  "version": "1.0.0",
+  "description": "push current npm module to a new GitHub repo",
+  "main": "index.js",
+  "license": "MIT",
+  "author": {
+    "name": "Matt DesLauriers",
+    "email": "dave.des@gmail.com",
+    "url": "https://github.com/mattdesl"
+  },
+  "dependencies": {
+    "chalk": "^0.5.1",
+    "concat-stream": "^1.4.7",
+    "gh": "git://github.com/node-gh/gh#2.0.x",
+    "inquirer": "^0.8.0",
+    "minimist": "^1.1.0",
+    "npm-execspawn": "^1.0.6",
+    "npmconf": "^2.1.1",
+    "shell-quote": "^1.4.2"
+  },
+  "devDependencies": {
+    "gh": "^1.9.4",
+    "tape": "^3.5.0"
+  },
+  "scripts": {
+    "test": "node test.js"
+  },
+  "keywords": [
+    "tool",
+    "utility",
+    "gh",
+    "repo",
+    "repository",
+    "new",
+    "make",
+    "create",
+    "github",
+    "git",
+    "hub",
+    "module",
+    "npm",
+    "package"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/mattdesl/ghrepo.git"
+  },
+  "homepage": "https://github.com/mattdesl/ghrepo",
+  "bugs": {
+    "url": "https://github.com/mattdesl/ghrepo/issues"
+  }
+}
