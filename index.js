@@ -33,7 +33,7 @@ module.exports.user = function(cb) {
     }))
 }
 
-
+//create GitHub page
 module.exports.create = function(opt, cb) {
     cb = cb || noop
     var cmd = [
@@ -46,7 +46,9 @@ module.exports.create = function(opt, cb) {
         cmd.push('--homepage', opt.homepage)
     if (opt.description)
         cmd.push('--description', opt.description)
-
+    if (opt.private)
+        cmd.push('--private')
+    
     cmd = quote(cmd)
 
     var proc = spawn(cmd, [], { stdio: 'inherit' })
@@ -59,6 +61,7 @@ module.exports.create = function(opt, cb) {
     })
 }
 
+//git add + git commit + git push
 module.exports.add = function(opt, cb) {
     cb = cb || noop
     var message = opt.message||'first commit'
@@ -79,22 +82,3 @@ module.exports.add = function(opt, cb) {
             cb(new Error("error code " + code))
     })
 }
-
-// process.stdin.resume()
-// process.stdin.setEncoding('utf8')
-// process.stdout.pipe(concat(function(user) {
-//     console.log(user)
-// }))
-// proc.stdin.setEncoding('utf8')
-// proc.stdin.resume()
-
-
-// proc.stdout.pipe(process.stdout)
-// process.stdin.pipe(proc.stdin)
-// proc.stdin.pause()
-// proc.stdout.on('data', function(err) {
-//     console.log(err.toString())
-// })
-// proc.stdout.pipe(concat(function(user) {
-//     console.log("USER", user.toString())
-// }))

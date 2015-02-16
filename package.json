@@ -12,7 +12,7 @@
   "dependencies": {
     "chalk": "^0.5.1",
     "concat-stream": "^1.4.7",
-    "gh": "git://github.com/node-gh/gh#2.0.x",
+    "gh": "file:../../../var/folders/62/dd4lcd913ls9bb6w8q7k2knr0000gn/T/npm-10620-7edbf33b/git-cache-6c4ed3947ab8/c7fbf2b2a580a2edaed61c0c85761fc2190eb2cb",
     "inquirer": "^0.8.0",
     "minimist": "^1.1.0",
     "npm-execspawn": "^1.0.6",

@@ -35,7 +35,6 @@ function start(user, pkg) {
     var description = pkg.description || ''
     var homepage = pkg.homepage || ''
 
-
     if (!name) {
         console.error("No name in package.json")
         process.exit(1)
@@ -63,7 +62,8 @@ function start(user, pkg) {
                 description: description,
                 homepage: homepage,
                 message: message,
-                url: url
+                url: url,
+                private: argv.p || argv.private
             })
         }
     })    
