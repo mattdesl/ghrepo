@@ -1,11 +1,11 @@
 {
   "name": "ghrepo",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "push current npm module to a new GitHub repo",
   "main": "index.js",
   "license": "MIT",
   "bin": {
-    "ghrepo": "./cmd.js"  
+    "ghrepo": "./cmd.js"
   },
   "author": {
     "name": "Matt DesLauriers",
