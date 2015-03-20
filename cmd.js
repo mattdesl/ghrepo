@@ -99,8 +99,7 @@ function getOpts() {
   return auth({
     configName: 'ghrepo',
     note: 'ghrepo - repo creation tool',
-    // noSave: true,
-    scopes: ['user', 'repo', 'admin:org', 'read:org', 'write:org']
+    scopes: ['user', 'repo']
   })
     .then(function(auth) {
       return [ auth, package() ]

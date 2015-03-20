@@ -4,6 +4,9 @@
   "description": "push current npm module to a new GitHub repo",
   "main": "index.js",
   "license": "MIT",
+  "bin": {
+    "ghrepo": "./cmd.js"  
+  },
   "author": {
     "name": "Matt DesLauriers",
     "email": "dave.des@gmail.com",
