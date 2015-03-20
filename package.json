@@ -10,14 +10,22 @@
     "url": "https://github.com/mattdesl"
   },
   "dependencies": {
-    "chalk": "^0.5.1",
+    "bluebird": "^2.9.14",
+    "chalk": "^1.0.0",
     "concat-stream": "^1.4.7",
+    "exec-sync": "^0.1.6",
     "gh": "file:../../../var/folders/62/dd4lcd913ls9bb6w8q7k2knr0000gn/T/npm-10620-7edbf33b/git-cache-6c4ed3947ab8/c7fbf2b2a580a2edaed61c0c85761fc2190eb2cb",
+    "ghauth": "^2.0.0",
+    "github": "^0.2.3",
     "inquirer": "^0.8.0",
+    "jsesc": "^0.5.0",
     "minimist": "^1.1.0",
+    "no-op": "^1.0.3",
     "npm-execspawn": "^1.0.6",
     "npmconf": "^2.1.1",
-    "shell-quote": "^1.4.2"
+    "opn": "^1.0.1",
+    "shell-quote": "^1.4.2",
+    "string-escape": "^0.3.0"
   },
   "devDependencies": {
     "gh": "^1.9.4",
