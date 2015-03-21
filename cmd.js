@@ -4,6 +4,8 @@ const argv = require('minimist')(process.argv.slice(2))
 const chalk = require('chalk')
 const github = require('./lib/github')
 const open = require('opn')
+const path = require('path')
+const noop = require('no-op')
 
 const publish = Promise.promisify(github.publish) 
 const auth = Promise.promisify(github.auth) 
@@ -23,14 +25,14 @@ getOpts()
   .then(request)
   .then(publish)
   .then(commit)
-  .then(open, err())
+  .then(argv.open !== false ? open : noop, err())
   .catch(err())
 
 function request(opt) {
   var pkg = opt.package
   var name = argv.n || argv.name || pkg.name
-  var description = pkg.description || ''
-  var homepage = pkg.homepage || ''
+  var description = argv.d || argv.description || pkg.description || ''
+  var homepage = argv.h || argv.homepage || pkg.homepage || ''
 
   if (!name) {
     console.error("No name in package.json")
@@ -88,7 +90,7 @@ function getMessage() {
   var def = 'first commit'
   //try getting it from config
   return config().then(function(conf) {
-    return conf.get('init.ghrepo.commit') || def
+    return conf.get('init.ghrepo.message') || def
   }, function(err) {
     //default
     return Promise.resolve(def)
@@ -102,7 +104,7 @@ function getOpts() {
     scopes: ['user', 'repo']
   })
     .then(function(auth) {
-      return [ auth, package() ]
+      return [ auth, getPackage() ]
     }, err('Could not authenticate'))
     .spread(function(auth, pkg) {
       return {
@@ -111,6 +113,17 @@ function getOpts() {
         auth: auth
       }
     }, err('Error reading package.json'))
+}
+
+function getPackage() {
+  return package()
+    .then(null, function(err) {
+      console.warn(chalk.bgYellow("WARN"), chalk.magenta("could not open package.json"))
+      console.warn(chalk.dim(err.message))
+      return Promise.resolve({
+        name: path.basename(process.cwd())
+      })
+    })
 }
 
 function err(msg) {
