@@ -1,6 +1,6 @@
 {
   "name": "ghrepo",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "create a new GitHub repo from your current folder",
   "main": "index.js",
   "license": "MIT",
