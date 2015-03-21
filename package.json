@@ -1,7 +1,7 @@
 {
   "name": "ghrepo",
   "version": "1.0.2",
-  "description": "push current npm module to a new GitHub repo",
+  "description": "create a new GitHub repo from your current folder",
   "main": "index.js",
   "license": "MIT",
   "bin": {
