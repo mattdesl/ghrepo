@@ -2,7 +2,7 @@
   "name": "ghrepo",
   "version": "1.0.3",
   "description": "create a new GitHub repo from your current folder",
-  "main": "index.js",
+  "main": "./cmd.js",
   "license": "MIT",
   "bin": {
     "ghrepo": "./cmd.js"
