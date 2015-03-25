@@ -26,10 +26,10 @@
     "opn": "^1.0.1"
   },
   "devDependencies": {
+    "standard": "^3.2.1",
     "tape": "^3.5.0"
   },
   "scripts": {
-    "test": "node test.js"
   },
   "keywords": [
     "tool",

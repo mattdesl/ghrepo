@@ -7,17 +7,17 @@ const open = require('opn')
 const path = require('path')
 const noop = require('no-op')
 
-const publish = Promise.promisify(github.publish) 
-const auth = Promise.promisify(github.auth) 
-const config = Promise.promisify(require('./lib/config')) 
-const gitCommit = Promise.promisify(require('./lib/commit')) 
-const confirm = Promise.promisify(require('./lib/confirm')) 
-const package = Promise.promisify(require('./lib/package')) 
+const publish = Promise.promisify(github.publish)
+const auth = Promise.promisify(github.auth)
+const config = Promise.promisify(require('./lib/config'))
+const gitCommit = Promise.promisify(require('./lib/commit'))
+const promptConfirm = Promise.promisify(require('./lib/confirm'))
+const readPackage = Promise.promisify(require('./lib/package'))
 
 //get organization
 var org = argv.o || argv.org
 if (org && typeof org !== 'string') {
-  console.error("No --org specified")
+  console.error('No --org specified')
   process.exit(1)
 }
 
@@ -25,30 +25,30 @@ getOpts()
   .then(request)
   .then(publish)
   .then(commit)
-  .then(argv.open !== false ? open : noop, err())
-  .catch(err())
+  .then(argv.open !== false ? open : noop, error())
+  .catch(error())
 
-function request(opt) {
+function request (opt) {
   var pkg = opt.package
   var name = argv.n || argv.name || pkg.name
   var description = argv.d || argv.description || pkg.description || ''
   var homepage = argv.h || argv.homepage || pkg.homepage || ''
 
   if (!name) {
-    console.error("No name in package.json")
+    console.error('No name in package.json')
     process.exit(1)
   }
 
-  if (homepage && homepage.indexOf('https://github.com/') === 0)
+  if (homepage && homepage.indexOf('https://github.com/') === 0) {
     homepage = ''
+  }
 
   var user = opt.org || opt.auth.user
   var repo = [user, name].join('/')
-  var url = 'https://github.com/' + repo + '.git'
   repo = chalk.magenta(repo)
   var info = 'Publish new repo as ' + repo + '?'
-  return confirm(info)
-    .then(function() {
+  return promptConfirm(info)
+    .then(function () {
       return {
         org: opt.org,
         name: name,
@@ -57,33 +57,32 @@ function request(opt) {
         private: argv.p || argv.private,
         team_id: argv.team
       }
-    }, function() {
-      // user exited early
-      process.exit(0) 
+    }, function () {
+      process.exit(0) //user exited early
     })
 }
 
 //commits current working dir, resolves to html_url
-function commit(result) {
+function commit (result) {
   var url = result.html_url
   //user opted not to commit anything
   if (argv.b || argv.bare) {
     return Promise.resolve(url)
   }
-  return getMessage().then(function(message) {
+  return getMessage().then(function (message) {
     return gitCommit({
       message: message,
       url: url + '.git'
-    }).catch(function() {
+    }).catch(function () {
       console.warn(chalk.dim("git commands ignored"))
       return Promise.resolve(url)
-    }).then(function() {
+    }).then(function () {
       return url
     })
   })
 }
 
-function getMessage() {
+function getMessage () {
   var msg = argv.m || argv.message
   if (msg)
     return Promise.resolve(msg)
@@ -91,44 +90,46 @@ function getMessage() {
   //try getting it from config
   return config().then(function(conf) {
     return conf.get('init.ghrepo.message') || def
-  }, function(err) {
+  }, function (err) {
+    console.error(chalk.bgYellow("WARN"), chalk.magenta("could not load npm config"))
+    console.error(chalk.dim(err.message))
     //default
     return Promise.resolve(def)
   })
 }
 
-function getOpts() {
+function getOpts () {
   return auth({
     configName: 'ghrepo',
     note: 'ghrepo - repo creation tool',
     scopes: ['user', 'repo']
   })
-    .then(function(auth) {
-      return [ auth, getPackage() ]
-    }, err('Could not authenticate'))
-    .spread(function(auth, pkg) {
+    .then(function (authData) {
+      return [ authData, getPackage() ]
+    }, error('Could not authenticate'))
+    .spread(function (authData, pkg) {
       return {
         package: pkg,
         org: org,
-        auth: auth
+        auth: authData
       }
-    }, err('Error reading package.json'))
+    }, error('Error reading package.json'))
 }
 
-function getPackage() {
-  return package()
-    .then(null, function(err) {
-      console.warn(chalk.bgYellow("WARN"), chalk.magenta("could not open package.json"))
-      console.warn(chalk.dim(err.message))
+function getPackage () {
+  return readPackage()
+    .then(null, function (err) {
+      console.error(chalk.bgYellow("WARN"), chalk.magenta("could not open package.json"))
+      console.error(chalk.dim(err.message))
       return Promise.resolve({
         name: path.basename(process.cwd())
       })
     })
 }
 
-function err(msg) {
+function error (msg) {
   msg = msg||''
-  return function(err) {
+  return function (err) {
     console.error([msg, err.message].join(' ').trim())
     process.exit(1)
   }
