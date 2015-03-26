@@ -14,7 +14,7 @@ const gitCommit = Promise.promisify(require('./lib/commit'))
 const promptConfirm = Promise.promisify(require('./lib/confirm'))
 const readPackage = Promise.promisify(require('./lib/package'))
 
-//get organization
+// get organization
 var org = argv.o || argv.org
 if (org && typeof org !== 'string') {
   console.error('No --org specified')
@@ -58,14 +58,14 @@ function request (opt) {
         team_id: argv.team
       }
     }, function () {
-      process.exit(0) //user exited early
+      process.exit(0) // user exited early
     })
 }
 
-//commits current working dir, resolves to html_url
+// commits current working dir, resolves to html_url
 function commit (result) {
   var url = result.html_url
-  //user opted not to commit anything
+  // user opted not to commit anything
   if (argv.b || argv.bare) {
     return Promise.resolve(url)
   }
@@ -84,16 +84,17 @@ function commit (result) {
 
 function getMessage () {
   var msg = argv.m || argv.message
-  if (msg)
+  if (msg) {
     return Promise.resolve(msg)
+  }
   var def = 'first commit'
-  //try getting it from config
-  return config().then(function(conf) {
+  // try getting it from config
+  return config().then(function (conf) {
     return conf.get('init.ghrepo.message') || def
   }, function (err) {
-    console.error(chalk.bgYellow("WARN"), chalk.magenta("could not load npm config"))
+    console.error(chalk.bgYellow('WARN'), chalk.magenta("could not load npm config"))
     console.error(chalk.dim(err.message))
-    //default
+    // default
     return Promise.resolve(def)
   })
 }
@@ -119,7 +120,7 @@ function getOpts () {
 function getPackage () {
   return readPackage()
     .then(null, function (err) {
-      console.error(chalk.bgYellow("WARN"), chalk.magenta("could not open package.json"))
+      console.error(chalk.bgYellow('WARN'), chalk.magenta("could not open package.json"))
       console.error(chalk.dim(err.message))
       return Promise.resolve({
         name: path.basename(process.cwd())
@@ -128,7 +129,7 @@ function getPackage () {
 }
 
 function error (msg) {
-  msg = msg||''
+  msg = msg || ''
   return function (err) {
     console.error([msg, err.message].join(' ').trim())
     process.exit(1)

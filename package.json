@@ -30,6 +30,7 @@
     "tape": "^3.5.0"
   },
   "scripts": {
+    "test": "standard foobar.js"
   },
   "keywords": [
     "tool",
