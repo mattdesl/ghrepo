@@ -2,7 +2,7 @@ Usage:
   ghrepo [opts]
 
 Options:
-  --help, -h          show help
+  --help              show help
   --version, -v       prints version number
   --name, -n          the name of the repository
   --description, -d   the description
