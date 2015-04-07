@@ -13,7 +13,12 @@ npm install ghrepo -g
 The example below pushes the contents of `my-module` to a new GitHub repository with the specified commit message. On first run, it will [prompt for authentication](https://github.com/rvagg/ghauth).
 
 ```sh
+#make a new module
+mkdir my-module
 cd my-module
+npm init
+
+#create a new GitHub repository
 ghrepo -m 'first commit yolo'
 ```
 
