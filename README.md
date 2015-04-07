@@ -37,6 +37,7 @@ Options:
   --message, -m       the commit message (default "first commit")
   --bare, -b          do not run any git commands after creating the repo
   --no-open           do not open the GitHub repo in the browser after creation
+  --org, -o           the organization to create the repo in (optional)
 ```
 
 The `--name`, `--description`, and `--homepage` will default to `package.json`. If no `package.json` is found, `--name` defaults to the current folder's name.
