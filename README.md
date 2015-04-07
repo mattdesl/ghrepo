@@ -22,7 +22,7 @@ npm init
 ghrepo -m 'first commit yolo'
 ```
 
-Result:
+This should open the browser to the newly created GitHub repository on your account, and push the current contents of the folder.
 
 ![result](http://i.imgur.com/5bz7JCW.png)
 
