@@ -1,0 +1,17 @@
+Usage:
+  ghrepo [opts]
+
+Options:
+  --help, -h          show help
+  --version, -v       prints version number
+  --name, -n          the name of the repository
+  --description, -d   the description
+  --homepage, -h      the homepage URL
+  --private, -p       mark the repository as private (default false)
+  --message, -m       the commit message (default "first commit")
+  --bare, -b          do not run any git commands after creating the repo
+  --no-open           do not open the GitHub repo in the browser after creation
+  --org, -o           the organization to create the repo in (optional)
+
+Example:
+  ghrepo -p --org stackgl -m "first commit"

@@ -21,6 +21,19 @@ if (org && typeof org !== 'string') {
   process.exit(1)
 }
 
+  
+if (argv.v || argv.version) {
+  var version = require('./package.json').version
+  console.log(version)
+  return
+}
+
+if (argv.h || argv.help) {
+  require('fs').createReadStream(path.join(__dirname, 'lib', 'help.txt'))
+      .pipe(process.stdout)
+  return
+}
+
 getOpts()
   .then(request)
   .then(publish)
