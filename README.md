@@ -26,10 +26,12 @@ Result:
 [![NPM](https://nodei.co/npm/ghrepo.png)](https://www.npmjs.com/package/ghrepo)
 
 ```
-Usage
+Usage:
   ghrepo [opts]
 
 Options:
+  --help              show help
+  --version, -v       prints version number
   --name, -n          the name of the repository
   --description, -d   the description
   --homepage, -h      the homepage URL

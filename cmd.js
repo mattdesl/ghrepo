@@ -28,7 +28,7 @@ if (argv.v || argv.version) {
   return
 }
 
-if (argv.h || argv.help) {
+if (argv.help) {
   require('fs').createReadStream(path.join(__dirname, 'lib', 'help.txt'))
       .pipe(process.stdout)
   return
