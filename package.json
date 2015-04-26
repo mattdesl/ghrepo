@@ -23,10 +23,13 @@
     "no-op": "^1.0.3",
     "npm-execspawn": "^1.0.6",
     "npmconf": "^2.1.1",
-    "opn": "^1.0.1"
+    "opn": "^1.0.1",
+    "require-package-name": "^1.0.0"
   },
   "devDependencies": {
-    "tape": "^3.5.0"
+    "concat-stream": "^1.4.8",
+    "tape": "^4.0.0",
+    "win-spawn": "^2.0.0"
   },
   "scripts": {
     "test": "node test.js"

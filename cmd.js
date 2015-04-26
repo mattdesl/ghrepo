@@ -6,6 +6,7 @@ const github = require('./lib/github')
 const open = require('opn')
 const path = require('path')
 const noop = require('no-op')
+const baseName = require('require-package-name')
 
 const publish = Promise.promisify(github.publish) 
 const auth = Promise.promisify(github.auth) 
@@ -34,16 +35,29 @@ if (argv.help) {
   return
 }
 
-getOpts()
-  .then(request)
-  .then(publish)
-  .then(commit)
-  .then(argv.open !== false ? open : noop, err())
-  .catch(err())
+var dryRun = argv['dry-run']
+if (dryRun) {
+  console.error(chalk.grey("(dry run)"))
+  start()
+      .then(function(result) {
+        console.log(JSON.stringify(result))
+      })
+      .catch(err())
+} else {
+  start()
+    .then(publish)
+    .then(commit)
+    .then(argv.open !== false ? open : noop, err())
+    .catch(err())
+}
 
+function start() {
+  return getOpts().then(request)
+}
+  
 function request(opt) {
   var pkg = opt.package
-  var name = argv.n || argv.name || pkg.name
+  var name = argv.n || argv.name || baseName(pkg.name)
   var description = argv.d || argv.description || pkg.description || ''
   var homepage = argv.h || argv.homepage || pkg.homepage || ''
 
@@ -60,16 +74,21 @@ function request(opt) {
   var url = 'https://github.com/' + repo + '.git'
   repo = chalk.magenta(repo)
   var info = 'Publish new repo as ' + repo + '?'
+  var data = {
+    org: opt.org,
+    name: name,
+    description: description,
+    homepage: homepage,
+    private: argv.p || argv.private,
+    team_id: argv.team
+  }
+  
+  if (dryRun)
+    return data
+
   return confirm(info)
     .then(function() {
-      return {
-        org: opt.org,
-        name: name,
-        description: description,
-        homepage: homepage,
-        private: argv.p || argv.private,
-        team_id: argv.team
-      }
+      return data
     }, function() {
       // user exited early
       process.exit(0) 
