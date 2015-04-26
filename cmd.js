@@ -6,7 +6,7 @@ const github = require('./lib/github')
 const open = require('opn')
 const path = require('path')
 const noop = require('no-op')
-const baseName = require('require-package-name')
+const baseName = require('require-package-name').base
 
 const publish = Promise.promisify(github.publish) 
 const auth = Promise.promisify(github.auth) 
