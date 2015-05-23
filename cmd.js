@@ -131,6 +131,7 @@ function getMessage() {
 
 function getOpts() {
   return auth({
+    noSave: argv.authorize,
     configName: 'ghrepo',
     note: 'ghrepo - repo creation tool',
     scopes: ['user', 'repo']
