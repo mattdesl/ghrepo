@@ -7,13 +7,14 @@ const open = require('opn')
 const path = require('path')
 const noop = require('no-op')
 const baseName = require('require-package-name').base
+const githubUrl = require('github-url-to-object')
 
 const publish = Promise.promisify(github.publish) 
 const auth = Promise.promisify(github.auth) 
 const config = Promise.promisify(require('./lib/config')) 
 const gitCommit = Promise.promisify(require('./lib/commit')) 
 const confirm = Promise.promisify(require('./lib/confirm')) 
-const package = Promise.promisify(require('./lib/package')) 
+const loadPackage = Promise.promisify(require('./lib/package')) 
 
 //get organization
 var org = argv.o || argv.org
@@ -68,8 +69,17 @@ function request(opt) {
 
   if (homepage && homepage.indexOf('https://github.com/') === 0)
     homepage = ''
-
-  var user = opt.org || opt.auth.user
+  
+  var user = opt.org
+  // try to glean default username from package.json repository URL
+  if (!user && pkg.repository && pkg.repository.url) {
+    var urlObj = githubUrl(pkg.repository.url)
+    if (urlObj) {
+      user = urlObj.user
+    }
+  }
+  user = user || opt.auth.user
+  
   var repo = [user, name].join('/')
   var url = 'https://github.com/' + repo + '.git'
   repo = chalk.magenta(repo)
@@ -83,8 +93,10 @@ function request(opt) {
     team_id: argv.team
   }
   
-  if (dryRun)
+  if (dryRun) {
+    data.user = user
     return data
+  }
 
   return confirm(info)
     .then(function() {
@@ -148,7 +160,7 @@ function getOpts() {
 }
 
 function getPackage() {
-  return package()
+  return loadPackage()
     .then(null, function(err) {
       console.warn(chalk.bgYellow("WARN"), chalk.magenta("could not open package.json"))
       console.warn(chalk.dim(err.message))

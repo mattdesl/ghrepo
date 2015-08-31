@@ -49,6 +49,8 @@ Options:
 
 The `--name`, `--description`, and `--homepage` will default to `package.json`. If no `package.json` is found, `--name` defaults to the current folder's name.
 
+The `--org` will default to the same user as specified in the `repository` URL in package.json. Otherwise, it will default to the username specified from the initial authentication.
+
 #### Default Commit Message
 
 You can personalize the default commit message with npm config:
