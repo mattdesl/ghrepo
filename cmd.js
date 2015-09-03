@@ -85,7 +85,7 @@ function request(opt) {
   repo = chalk.magenta(repo)
   var info = 'Publish new repo as ' + repo + '?'
   var data = {
-    org: opt.org,
+    org: user,
     name: name,
     description: description,
     homepage: homepage,
@@ -94,7 +94,6 @@ function request(opt) {
   }
   
   if (dryRun) {
-    data.user = user
     return data
   }
 
