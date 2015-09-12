@@ -80,12 +80,13 @@ function request(opt) {
   }
   user = user || opt.auth.user
   
+  var org = user === opt.auth.user ? undefined : user
   var repo = [user, name].join('/')
   var url = 'https://github.com/' + repo + '.git'
   repo = chalk.magenta(repo)
   var info = 'Publish new repo as ' + repo + '?'
   var data = {
-    org: user,
+    org: org,
     name: name,
     description: description,
     homepage: homepage,
